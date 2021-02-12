@@ -78,7 +78,7 @@ public class WilSON
             // Don't set the index. Used the one passed, so functions stay at the right index of the string
             for(;index < json.length();index++)
             {
-                // This parenthesis check if for the ending of the key string
+                // This parenthesis check is for the ending of the key string
                 if(json.charAt(index) == '\"')
                 {
                     if(jsonArray[0].trim().isEmpty()||
@@ -164,6 +164,228 @@ public class WilSON
             // If key doesn't start with the right character, the format isn't right.
             System.out.println("Key not formatted correctly.");
             System.out.println("json.charAt("+index+"): "+json.charAt(index));
+            return json.length();
+        }
+        
+        // This is a default return because Eclipse will throw an error even though there are 
+        // multiple returns in this function.
+        return index;
+    }
+    
+    // Set the key
+    private int setValue(String json, int index, String[] jsonArray)
+    {
+        // Check to see what the value starts with 
+        if(json.charAt(index) == '\"')
+        {
+            // Increment forward to avoid catching the parenthesis 
+            index++;
+            for(;index < json.length();index++)
+            {
+                // This parenthesis check is for the ending of the value string
+                if((json.charAt(index) == '\"')&&
+                    (json.charAt(index - 1) != '\\'))
+                {
+                    if((jsonArray[1].trim().isEmpty())||
+                        (jsonArray[1] == null))
+                    {
+                        // If the value is empty or null for whatever reason, set the value to an empty string.
+                        jsonArray[1] = "";
+                    }
+                    
+                    // Move to the next index
+                    index++;
+                    
+                    // Check if one of these characters is after the parenthesis.
+                    if((json.charAt(index) == ',')||
+                        (json.charAt(index) == '}')||
+                            (json.charAt(index) == ']'))
+                    {
+                        // If check is good, return current index because the parent loop will increment again.
+                        return index;
+                    }else
+                    {
+                        // If parenthesis is found, but other checks are bad, the format is bad.
+                        System.out.println("-----WilSON.getValue-----");
+                        System.out.println(jsonArray[1]);
+                        System.out.println("Check char after value for key \""+jsonArray[0]+"\".");
+                        System.out.println();
+                        return json.length();
+                    }
+                }
+                
+                // Set char into value string
+                jsonArray[1] += json.charAt(index);
+            }
+        }else if((json.charAt(index)+"").matches("[0-9]"))
+        {
+            // Check if value is a number
+            
+            for(;index < json.length();index++)
+            {
+                if((json.charAt(index) == ',')||
+                    (json.charAt(index) == '}')||
+                        (json.charAt(index) == ']'))
+                {
+                    // Return current index
+                    return index;
+                }else if((json.charAt(index)+"").matches("[0-9]"))
+                {
+                    // Double check that each char is a number, just in case.
+                    // Set the char into the value string
+                    jsonArray[1] += json.charAt(index);
+                }else
+                {
+                    // If checks are bad, format is bad.
+                    System.out.println("-----WilSON.getValue-----");
+                    System.out.println(jsonArray[1]);
+                    System.out.println("Value started with numbers, but did not continue with numbers.");
+                    System.out.println("json.charAt("+index+"): "+json.charAt(index));
+                    System.out.println();
+                    return json.length();
+                }
+            }
+        }else if((json.charAt(index)+"").matches("[tf]"))
+        {
+            // Check if value is a true or false
+            
+            for(;index < json.length();index++)
+            {
+                if((json.charAt(index) == ',')||
+                    (json.charAt(index) == '}')||
+                        (json.charAt(index) == ']'))
+                {
+                    // Make sure the value is actually true or false
+                    if((jsonArray[1].equals("true"))||
+                        (jsonArray[1].equals("false")))
+                    {
+                        // Return current index
+                        return index;
+                    }else
+                    {
+                        // If checks are bad, format is bad.
+                        System.out.println("-----WilSON.getValue-----");
+                        System.out.println("Value started with t or f, but did not read as true or false.");
+                        System.out.println("json.charAt("+index+"): "+json.charAt(index));
+                        System.out.println(jsonArray[0]+" -> "+jsonArray[1]);
+                        System.out.println();
+                        return json.length();
+                    }
+
+                }
+                
+                // Set char into value string
+                jsonArray[1] += json.charAt(index);
+            }
+        }else if((json.charAt(index)+"").matches("[n]"))
+        {
+            // Check if value is a null
+            
+            for(;index < json.length();index++)
+            {
+                if((json.charAt(index) == ',')||
+                    (json.charAt(index) == '}')||
+                        (json.charAt(index) == ']'))
+                {
+                    if((jsonArray[1].equals("null")))
+                    {
+                        // Make sure the value is actually null
+                        return index;
+                    }else
+                    {
+                        // If checks are bad, format is bad.
+                        System.out.println("-----WilSON.getValue-----");
+                        System.out.println("Value started with n, but did not read as null.");
+                        System.out.println("json.charAt("+index+"): "+json.charAt(index));
+                        System.out.println(jsonArray[0]+" -> "+jsonArray[1]);
+                        System.out.println();
+                        return json.length();
+                    }
+
+                }
+                jsonArray[1] += json.charAt(index);
+            }
+        }else if(json.charAt(index) == '{')
+        {
+            // Check if value is a nested json object
+            
+            int curlBrace = 0;
+            for(;index < json.length();index++)
+            {
+                // Keep track of the braces
+                if(json.charAt(index) == '{')
+                {
+                    curlBrace++;
+                }else if(json.charAt(index) == '}')
+                {
+                    curlBrace--;
+                }
+                
+                // Check if all braces are accounted for and loop found closing brace
+                if((json.charAt(index) == '}')&&
+                    (curlBrace == 0))
+                {
+                    // Add the brace to the value string
+                    jsonArray[1] += json.charAt(index);
+                    // Increment the index so the parent loop increments again to either end, or move to the next key.
+                    index++;
+                    return index;
+                }
+                
+                // Add character to value string
+                jsonArray[1] += json.charAt(index);
+            }
+            
+            // If it makes it through the loop and reaches this point, then the closing brace was never found.
+            System.out.println("-----WilSON.getValue-----");
+            System.out.println("Could not find the end of nested JSON object for key \""+jsonArray[0]+"\".");
+            System.out.println(jsonArray[1]);
+            System.out.println();
+            return json.length();
+        }else if(json.charAt(index) == '[')
+        {
+            // Check if value is a nested json array
+            
+            int squareBrace = 0;
+            for(;index < json.length();index++)
+            {
+                // Keep track of the braces
+                if(json.charAt(index) == '[')
+                {
+                    squareBrace++;
+                }else if(json.charAt(index) == ']')
+                {
+                    squareBrace--;
+                }
+                
+                // Check if all braces are accounted for and loop found closing brace
+                if((json.charAt(index) == ']')&&
+                    (squareBrace == 0))
+                {
+                    // Add the brace to the value string
+                    jsonArray[1] += json.charAt(index);
+                    // Increment the index so the parent loop increments again to either end, or move to the next key.
+                    index++;
+                    return index;
+                }
+                
+                // Add character to value string
+                jsonArray[1] += json.charAt(index);
+            }
+            
+            // If it makes it through the loop and reaches this point, then the closing brace was never found.
+            System.out.println("-----WilSON.getValue-----");
+            System.out.println("Could not find the end of nested JSON array for key \""+jsonArray[0]+"\".");
+            System.out.println(jsonArray[1]);
+            System.out.println();
+            return json.length();
+        }else
+        {
+            // If key doesn't start with the right character, the format isn't right.
+            System.out.println("-----WilSON.getValue-----");
+            System.out.println("Value for key \""+jsonArray[0]+"\" is not formatted correctly.");
+            System.out.println(jsonArray[1]);
+            System.out.println();
             return json.length();
         }
         
