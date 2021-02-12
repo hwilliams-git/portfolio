@@ -120,7 +120,7 @@ public class MariaDBConn
 	
     /*
     ** 
-    **Prepared statments will be added later.
+    ** Prepared statments will be added later.
     **
     */
 }
