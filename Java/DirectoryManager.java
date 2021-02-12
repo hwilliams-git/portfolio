@@ -19,27 +19,27 @@ public class DirectoryManager
 	
     // A different version of the ContentArray(). This one returns a list of directory
     // paths at whatever recursive depth the user defines.
- public List<String> PathList(String path, List<String> dirList, int recurseDepth)
-{
-File dir = new File(path);
-File[] dirArray = null;
+    public List<String> PathList(String path, List<String> dirList, int recurseDepth)
+    {
+        File dir = new File(path);
+        File[] dirArray = null;
 
-if(dir.isDirectory())
-{
-dirArray = dir.listFiles();
-for(int i = 0;i < dirArray.length;i++)
-{		
-dirList.add(dirArray[i].toString());
-if(recurseDepth > 0)
-{
-if(dir.isDirectory())
-{
-PathList(dirArray[i].toString(), dirList, recurseDepth - 1);
-}
-}
-}
-}
+        if(dir.isDirectory())
+        {
+            dirArray = dir.listFiles();
+            for(int i = 0;i < dirArray.length;i++)
+            {		
+                dirList.add(dirArray[i].toString());
+                if(recurseDepth > 0)
+                {
+                    if(dir.isDirectory())
+                    {
+                        PathList(dirArray[i].toString(), dirList, recurseDepth - 1);
+                    }
+                }
+            }
+        }
 
-return dirList;
-}
+        return dirList;
+    }
 }
