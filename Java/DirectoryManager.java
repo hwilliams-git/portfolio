@@ -1,11 +1,18 @@
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.Writer;
-import java.io.OutputStreamWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
  
 public class DirectoryManager
 {
+    // Compile a list of names of all the objects in the specified directory 
     public String[] ContentArray(String path)
     {
         File dir = new File(path);
@@ -48,6 +55,7 @@ public class DirectoryManager
         return dirList;
     }
 	
+    // Create a folder
     public boolean CreateFolder(String path)
     {
         File dir = new File(path);
@@ -69,6 +77,7 @@ public class DirectoryManager
         }
     }
 
+    // Write text to a file
     public boolean WriteText(String path, String content, boolean append)
     {
         try(Writer writer = new BufferedWriter(
@@ -92,6 +101,7 @@ public class DirectoryManager
         }
     }
 
+    // Read a file and return its text
     public String ReadText(String path)
     {
         String contents = "";
@@ -112,5 +122,20 @@ public class DirectoryManager
 	    
         // If exception is thrown, content will return null. Other wise it will return what was read from the file.
         return contents;
+    }
+   
+    // Read a file and look for a specified string
+    public boolean SearchText(String path, String find)
+    {
+        String file = ReadText(path);
+        try
+        {
+            file.contains(find);
+            return true;
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
