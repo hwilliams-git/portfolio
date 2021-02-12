@@ -3,19 +3,19 @@ import java.io.File;
 public class DirectoryManager
 {
     public String[] ContentArray(String path)
-	{
-		File dir = new File(path);
-		
-		if(dir.isDirectory())
-		{
-			// Return an array of just file names.
-			return dir.list();
-		}else
-		{
-			// Return null if path is not a directory.
-			return null;
-		}		
-	}
+    {
+        File dir = new File(path);
+
+        if(dir.isDirectory())
+        {
+            // Return an array of just file names.
+            return dir.list();
+        }else
+        {
+            // Return null if path is not a directory.
+            return null;
+        }		
+    }
 	
     // A different version of the ContentArray(). This one returns a list of directory
     // paths at whatever recursive depth the user defines.
