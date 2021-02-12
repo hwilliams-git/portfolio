@@ -75,7 +75,7 @@ public class DirectoryManager
                 new FileOutputStream(path, append), StandardCharsets.UTF_8)))
         {
             if(content.trim().equals(""))
-	        {
+            {
                 // If there is noting in the input string, don't add a new line to the file.
                 writer.write(content);
             }else
