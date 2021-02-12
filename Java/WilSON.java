@@ -1,0 +1,174 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class WilSON
+{
+    /**
+    **
+    ** This is a simple JSON parser I made because the original JSON parser I downloaded couldn't handle the 
+    ** the amount of data I was pushing through it.
+    **
+    **/
+    
+    // Parse through JSON and return a key/value pair in an array list
+    public List<String[]> parseToList(String string)
+    {
+        String[] arrayList = new String[] {"",""};
+        List<String[]> list = new ArrayList<String[]>();
+        int arrayIndex = 0;
+        int listIndex = 0;
+
+        // Check the first and last char for bracket type
+        if((string.charAt(0) == '{')&&(string.charAt(string.length()-1) == '}'))
+        {
+            // Set Key and Value for JSON object
+            for(int i = 1;i < string.length();i++)
+            {
+                // Parse out the key and get the returned updated index number
+                i = setKey(string, i, arrayList);
+                
+                // Parse out the value and get the returned updated index number
+                i = setValue(string, i, arrayList);
+                
+                // Add array to list to create a key/value pair
+                list.add(listIndex, arrayList);
+                listIndex++;
+                
+                // Important: reset this array to a new array. Otherwise you may end up
+                // having a full list of just one key/value pair.
+                arrayList = new String[] {"", ""};
+            }
+            
+            return list;
+        }else if((string.charAt(0) == '[')&&(string.charAt(string.length()-1) == ']'))
+        {
+            // Set Key and Value for JSON array
+            for(int i = 1;i < string.length();i++)
+            {
+                // Manualy set the key to a number
+                arrayList[0] = arrayIndex+"";
+                arrayIndex++;
+                
+                // Parse out the value and get the returned updated index number
+                i = setValue(string, i, arrayList);
+                
+                // Add array to list to create a key/value pair
+                list.add(listIndex, arrayList);
+                listIndex++;
+                
+                arrayList = new String[] {"", ""};
+            }
+            return list;
+        }else 
+        {
+            System.out.println("Check your open and close braces.");
+            // If bracket type is wrong, return null
+            return null;
+        }
+    }
+
+    // Set the key
+    private int SetKey(String json, int index, String[] jsonArray)
+    {
+        // Check to see what the key starts with 
+        if(json.charAt(index) == '\"')
+        {
+            // Increment forward to avoid catching the parenthesis 
+            index++;
+            // Don't set the index. Used the one passed, so functions stay at the right index of the string
+            for(;index < json.length();index++)
+            {
+                // This parenthesis check if for the ending of the key string
+                if(json.charAt(index) == '\"')
+                {
+                    if(jsonArray[0].trim().isEmpty()||
+                        (jsonArray[0] == null))
+                    {
+                        // If the key is empty or null for whatever reason, return the length of the json string to break 
+                        // out of the parent loop.
+                        System.out.println("Key started as string, but no string was detected.");
+                        return json.length();
+                    }
+                    
+                    // If key has a string, move to the next index
+                    index++;
+                    
+                    // Make sure there is a colon after the key
+                    if(json.charAt(index) == ':')
+                    {
+                        index++;
+                        return index;
+                    }else
+                    {
+                        // If the colon is missing, the json isn't formatted correctly
+                        System.out.println("Key is a string, but it's not separated from the value with a \":\".");
+                        return json.length();
+                    }
+                }
+                
+                // Add character to the key string
+                jsonArray[0] += json.charAt(index);
+            }
+        }else if((json.charAt(index)+"").matches("[0-9]"))
+        {
+            // Check if key is a number
+            
+            for(;index < json.length();index++)
+            {
+                // Make sure there is a colon after the key
+                if(json.charAt(index) == ':')
+                {
+                    index++;
+                    return index;
+                }else if((json.charAt(index)+"").matches("[0-9]"))
+                {
+                    // Double check that each char is a number, just in case.
+                    // Set the char into the key string
+                    jsonArray[0] += json.charAt(index);
+                }else
+                {
+                    // If both checks fail, there's something wrong with the format
+                    System.out.println("Key started with numbers, but did not continue with numbers.");
+                    return json.length();
+                }
+            }
+        }else if((json.charAt(index)+"").matches("[tf]"))
+        {
+            // Check if key is a true or false
+            
+            for(;index < json.length();index++)
+            {
+                // Make sure there is a colon after the key
+                if(json.charAt(index) == ':')
+                {
+                    // Make sure the key is actually true or false
+                    if((jsonArray[0].equals("true"))||
+                        (jsonArray[0].equals("false")))
+                    {
+                        index++;
+                        return index;
+                    }else
+                    {
+                        // If both check fails, there's something wrong with the format
+                        System.out.println("Key started with t or f, but did not read as true or false.");
+                        System.out.println("json.charAt("+index+"): "+json.charAt(index));
+                        return json.length();
+                    }
+                }
+                
+                // Add character to the key string
+                jsonArray[0] += json.charAt(index);
+            }
+        }else
+        {
+            // If key doesn't start with the right character, the format isn't right.
+            System.out.println("Key not formatted correctly.");
+            System.out.println("json.charAt("+index+"): "+json.charAt(index));
+            return json.length();
+        }
+        
+        // This is a default return because Eclipse will throw an error even though there are 
+        // multiple returns in this function.
+        return index;
+    }
+}
