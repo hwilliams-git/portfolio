@@ -9,7 +9,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class NetConnect
 {
-    public String https(String uri, String post, boolean displayHeaders)
+    public String Https(String uri, String post, boolean displayHeaders)
     {
         HttpsURLConnection con;
         try
