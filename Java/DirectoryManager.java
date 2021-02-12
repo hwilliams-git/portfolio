@@ -42,4 +42,25 @@ public class DirectoryManager
 
         return dirList;
     }
+	
+    public boolean CreateFolder(String path)
+    {
+        File dir = new File(path);
+        if(dir.isDirectory())
+        {
+            // If path entered is not a directory return false.
+            return false;
+        }else
+        {
+            if(dir.mkdir())
+            {
+                // If folder creation is successful, return true.
+                return true;
+            }else
+            {
+                // If folder creation is not successful, return false.
+                return false;
+            }
+        }
+    }
 }
