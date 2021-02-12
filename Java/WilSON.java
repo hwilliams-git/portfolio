@@ -393,4 +393,28 @@ public class WilSON
         // multiple returns in this function.
         return index;
     }
+	
+    public String GetKey(List<String[]> list, int index)
+    {
+        for(int i = 0;i < list.size();i++)
+        {
+            if(i == index)
+            {
+                return list.get(i)[0];
+            }
+        }
+        return null;
+    }
+
+    public String GetValue(List<String[]> list, String key)
+    {
+        for(int i = 0;i < list.size();i++)
+        {
+            if(list.get(i)[0].equals(key))
+            {
+                return list.get(i)[1];
+            }
+        }
+        return null;
+    }
 }
