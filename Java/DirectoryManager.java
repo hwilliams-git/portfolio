@@ -138,4 +138,20 @@ public class DirectoryManager
             return false;
         }
     }
+	
+    // Delete a an object in a directory. 
+    // I left out a recursive ability on purpose to allow user to decide if they want to do it on their own.
+    public String[] delete(String path)
+    {
+        try
+        {
+            File file = new File(path);
+            file.delete();
+            return true;
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
