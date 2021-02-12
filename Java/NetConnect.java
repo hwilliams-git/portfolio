@@ -9,6 +9,12 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class NetConnect
 {
+    /**
+    **
+    ** I can write other functions for Http and Url, but I decided there was no reason--due to Https obviously being more secure.
+    **
+    **/
+    
     public String Https(String uri, String post, boolean displayHeaders)
     {
         HttpsURLConnection con;
