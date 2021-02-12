@@ -140,6 +140,31 @@ public class DirectoryManager
             return false;
 	}
     }
+	
+    // Read bytes from a file
+    public byte[] ReadBytes(String path)
+    {
+        byte[] getBytes = null;
+        File file = new File(path); 
+        int fileSize = (int) file.length(); 				
+        getBytes = new byte[fileSize];
+
+        try(InputStream is = new FileInputStream(file))
+        {
+            is.read(getBytes);
+            // Use the file size to cycle through the byte array, if you want to read each byte.
+            /*for(int i = 0;i < fileSize;i++)
+            {
+                System.out.print((char) getBytes[i]);
+            }*/
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        // If exception is thrown, return null. Otherwise return the byte array.
+        return getBytes;
+    }
 
     // Read a file and look for a specified string
     public boolean SearchText(String path, String find)
