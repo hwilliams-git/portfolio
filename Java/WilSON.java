@@ -11,7 +11,7 @@ public class WilSON
     **/
     
     // Parse through JSON and return a key/value pair in an array list
-    public List<String[]> parseToList(String string)
+    public List<String[]> ParseToList(String string)
     {
         String[] arrayList = new String[] {"",""};
         List<String[]> list = new ArrayList<String[]>();
@@ -25,10 +25,10 @@ public class WilSON
             for(int i = 1;i < string.length();i++)
             {
                 // Parse out the key and get the returned updated index number
-                i = setKey(string, i, arrayList);
+                i = SetKey(string, i, arrayList);
                 
                 // Parse out the value and get the returned updated index number
-                i = setValue(string, i, arrayList);
+                i = SetValue(string, i, arrayList);
                 
                 // Add array to list to create a key/value pair
                 list.add(listIndex, arrayList);
@@ -50,7 +50,7 @@ public class WilSON
                 arrayIndex++;
                 
                 // Parse out the value and get the returned updated index number
-                i = setValue(string, i, arrayList);
+                i = SetValue(string, i, arrayList);
                 
                 // Add array to list to create a key/value pair
                 list.add(listIndex, arrayList);
@@ -173,7 +173,7 @@ public class WilSON
     }
     
     // Set the key
-    private int setValue(String json, int index, String[] jsonArray)
+    private int SetValue(String json, int index, String[] jsonArray)
     {
         // Check to see what the value starts with 
         if(json.charAt(index) == '\"')
