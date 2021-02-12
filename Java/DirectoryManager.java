@@ -1,3 +1,5 @@
+import java.io.File;
+
 public class DirectoryManager
 {
 	public String[] ContentArray(String path)
