@@ -104,7 +104,7 @@ public class DirectoryManager
     // Read a file and return its text
     public String ReadText(String path)
     {
-        String contents = "";
+        String contents = null;
 
         try(BufferedReader br = new BufferedReader(
             new FileReader((path))))
@@ -120,7 +120,7 @@ public class DirectoryManager
             e.printStackTrace();
         }
 	    
-        // If exception is thrown, content will return null. Other wise it will return what was read from the file.
+        // If exception is thrown, content will return null. Otherwise it will return what was read from the file.
         return contents;
     }
 
