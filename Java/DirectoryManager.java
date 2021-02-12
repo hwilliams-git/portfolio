@@ -3,7 +3,7 @@ import java.io.File;
 public class DirectoryManager
 {
     public String[] ContentArray(String path)
-	{
+{
 		File dir = new File(path);
 		
 		if(dir.isDirectory())
