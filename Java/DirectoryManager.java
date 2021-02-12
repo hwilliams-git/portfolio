@@ -123,7 +123,24 @@ public class DirectoryManager
         // If exception is thrown, content will return null. Other wise it will return what was read from the file.
         return contents;
     }
-   
+
+    // Write bytes to a file.
+    // Originally I was going to let user pass a string directly into the function, then 
+    // convert it. But, passing bytes directly will allow this function to handle files
+    // that only deal with bytes.
+    public boolean WriteBytes(String path, byte[] byteArray, boolean append)
+    {
+        try(FileOutputStream fos = new FileOutputStream(path, append)) 
+        {
+            fos.write(byteArray);
+            return true;
+        }catch(Exception e)
+	{
+            e.printStackTrace();
+            return false;
+	}
+    }
+
     // Read a file and look for a specified string
     public boolean SearchText(String path, String find)
     {
@@ -141,7 +158,9 @@ public class DirectoryManager
 	
     // Delete a an object in a directory. 
     // I left out a recursive ability on purpose to allow user to decide if they want to do it on their own.
-    public String[] delete(String path)
+    // This function may be redundant since one can just use .delete(). I just created it because at one point 
+    // I thouhgt it might have had a usefulness.
+    /*public boolean Delete(String path)
     {
         try
         {
@@ -153,5 +172,5 @@ public class DirectoryManager
             e.printStackTrace();
             return false;
         }
-    }
+    }*/
 }
