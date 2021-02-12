@@ -117,4 +117,10 @@ public class MariaDBConn
 
         return rowList;
     }
+	
+    /*
+    ** 
+    **Prepared statments will be added later.
+    **
+    */
 }
