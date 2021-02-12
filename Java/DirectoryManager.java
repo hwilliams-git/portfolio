@@ -1,4 +1,8 @@
 import java.io.File;
+import java.io.BufferedWriter;
+import java.io.Writer;
+import java.io.OutputStreamWriter;
+import java.io.FileOutputStream;
  
 public class DirectoryManager
 {
@@ -61,6 +65,29 @@ public class DirectoryManager
                 // If folder creation is not successful, return false.
                 return false;
             }
+        }
+    }
+	
+    public boolean WriteText(String path, String content, boolean append)
+    {
+        try(Writer writer = new BufferedWriter(
+            new OutputStreamWriter(
+                new FileOutputStream(path, append), StandardCharsets.UTF_8)))
+        {
+            if(content.trim().equals(""))
+	        {
+                // If there is noting in the input string, don't add a new line to the file.
+                writer.write(content);
+            }else
+            {
+                writer.write(content+"\r\n");
+            }
+            
+            return true;
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+            return false;
         }
     }
 }
