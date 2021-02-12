@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class NetConn
+public class NetConnect
 {
     public String https(String uri, String post, boolean displayHeaders)
     {
