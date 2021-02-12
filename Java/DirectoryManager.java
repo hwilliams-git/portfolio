@@ -43,7 +43,8 @@ public class DirectoryManager
                 }
             }
         }
-
+	    
+        // If path is not a directory, the list will return null. Other wise it will return what was found.
         return dirList;
     }
 	
@@ -67,7 +68,7 @@ public class DirectoryManager
             }
         }
     }
-	
+
     public boolean WriteText(String path, String content, boolean append)
     {
         try(Writer writer = new BufferedWriter(
@@ -82,12 +83,34 @@ public class DirectoryManager
             {
                 writer.write(content+"\r\n");
             }
-            
+
             return true;
         }catch(Exception e)
         {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public String ReadText(String path)
+    {
+        String contents = "";
+
+        try(BufferedReader br = new BufferedReader(
+            new FileReader((path))))
+        {
+            String line = "";
+            while((line = br.readLine()) != null) 
+            {
+                // Add each line read into the content string
+                contents += line;
+            }
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+	    
+        // If exception is thrown, content will return null. Other wise it will return what was read from the file.
+        return contents;
     }
 }
