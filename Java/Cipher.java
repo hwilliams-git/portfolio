@@ -1,4 +1,4 @@
-public class cipher
+public class Cipher
 {
     // Build a table of characters to use for encoding and decoding.
     private void BuildTable(char[] tableArray)
