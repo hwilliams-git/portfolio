@@ -1,5 +1,28 @@
 class DirMgr
 {
+    public List<string> PathList(List<string> contents, string path, int recurseDepth)
+    {
+        // Loop through subdirectories.
+        string[] dirs = Directory.GetDirectories(path);
+        foreach(string subDir in dirs)
+        {
+            contents.Add(subDir);
+            if(recurseDepth > 0)
+            {
+                PathList(contents, subDir, recurseDepth - 1);
+            }
+        }
+
+        // Get files found in the directory.
+        string [] files = Directory.GetFiles(path);
+        foreach(string fileName in files)
+        {
+            contents.Add(fileName);
+        }
+
+        return contents;
+    }
+    
     // Create or append text to a file.
     public bool WriteText(string path, string content, bool append)
     {
