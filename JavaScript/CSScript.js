@@ -2,20 +2,25 @@
 // There is still more I want to add, but that will come as I find more things I want to put into
 // websites.
 
+// Get the screen size to use for element sizes
+// to account for screen resolution
 var screenWidth = screen.width;
 var screenHeight = screen.height; 
 
+// Set the style of a certain element ID
 function SetIdStyle(_idName, _style, _input)
 {
     id = document.getElementById(_idName);
     StyleOptions(id, _style, _input); 
 }
 
+// Get all of the Classes in a certain ID
 function GetClassInID(_idName, _className)
 {
     return document.getElementById(_idName).getElementsByClassName(_className);
 }
 
+// Set the style of all identical Classes in a certain ID
 function SetClassStyleInId(_idName, _className, _style, _input)
 {
     classArray = GetClassInID(_idName, _className);
@@ -26,6 +31,7 @@ function SetClassStyleInId(_idName, _className, _style, _input)
     }
 }
 
+// Set the style of all identical Classes anywhere on the page
 function SetClassStyleAll(_className, _style, _input)
 {
     classArray = document.getElementsByClassName(_className);
@@ -36,6 +42,7 @@ function SetClassStyleAll(_className, _style, _input)
     }
 }
 
+// Find the JS equivalent to CSS style and set the certain element's style
 function StyleOptions(_element, _style, _input)
 {
     switch(_style)
