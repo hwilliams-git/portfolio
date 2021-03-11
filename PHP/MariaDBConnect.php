@@ -25,7 +25,8 @@ function ConnectDB()
     }else
     {
         // Return the connection
-        echo("Connected successfully (".$db->host_info.")</br></br>");
+        // For future reference, do not print out the database info in production
+        echo("Connected successfully (".$db- > host_info.")</br></br>");
         return $db;
     }
 }
