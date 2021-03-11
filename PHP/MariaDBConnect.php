@@ -53,10 +53,10 @@ function ListDB()
 }
 
 // Return a list of all the tables in a database
-function ListTB($p1)
+function ListTB($db)
 {
     $dbCon = ConnectDB();
-    $result = mysqli_query($dbCon, "show tables from ".$p1);
+    $result = mysqli_query($dbCon, "SHOW TABLES FROM ".$db);
     
     // Set the returned data into a string
     while($row = mysqli_fetch_array($result))
@@ -68,14 +68,14 @@ function ListTB($p1)
 }
 
 // Create a table in a specified database
-function CreateTB()
+function CreateTB($table)
 {
     $dbCon = ConnectDB();
     
     // Build query
     // For future reference, the parameters here will need to 
     // be dynamic since each table will need to be different
-    $sql = "CREATE TABLE MyGuests(
+    $sql = "CREATE TABLE ".$table."(
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     firstname VARCHAR(30) NOT NULL,
     lastname VARCHAR(30) NOT NULL,
@@ -85,7 +85,7 @@ function CreateTB()
     // Check status of table creation
     if($dbCon -> query($sql) === TRUE) 
     {
-        echo("Table MyGuests created successfully");
+        echo("Table ".$table." created successfully");
     }else 
     {
         // For future reference, do not print out the error in production
@@ -99,7 +99,7 @@ function InsertData($table, $p1, $p2, $p3)
     $dbCon = ConnectDB();
     
     // Build query
-    $sql = "INSERT INTO ".$table." (firstname, lastname, email)
+    $sql = "INSERT INTO ".$table."(firstname, lastname, email)
     VALUES('".$p1."', '".$p2."', '".$p3."')";
     
     if(mysqli_query($dbCon, $sql)) 
