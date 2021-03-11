@@ -7,7 +7,7 @@ var screenHeight = screen.height;
 
 function SetIdStyle(_idName, _style, _input)
 {
-    id = document.getElementById(_idName); console.log('here');
+    id = document.getElementById(_idName);
     StyleOptions(id, _style, _input); 
 }
 
