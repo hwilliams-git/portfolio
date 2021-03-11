@@ -1,3 +1,4 @@
+<?php
 // This is a script I created to test how I could manage a database through php
 
 // Connect to the database
