@@ -30,7 +30,7 @@ function WriteFile($fileName, $text, $append)
         //If file doesn't exist, do another action
     }
 }
-function readFromFile($fileName)
+function ReadFile($fileName)
 {
     $file = fopen($fileName, "r");// or die("Unable to open file!");
   
