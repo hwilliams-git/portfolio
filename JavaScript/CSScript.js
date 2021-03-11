@@ -1,5 +1,5 @@
 // This is a script I created to use JavaScript in place of CSS for the test websites I create.
-// There is still more I want to add, but that will come as I find more thisng I want to put into
+// There is still more I want to add, but that will come as I find more things I want to put into
 // websites.
 
 var screenWidth = screen.width;
